@@ -1,0 +1,78 @@
+
+.main-home__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10rem auto;
+    width: 80%;
+
+    .home-main-text__container {
+        margin: 0 auto;
+
+        .home-main-text {
+            position: absolute;
+            font-family: Montserrat, serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: #fff;
+            opacity: 0;
+        }
+
+        .home-main-text--light {
+            font-weight: 400;
+            opacity: 0;
+            font-size: 2.5rem;
+        }
+    }
+
+    .calendar__container {
+        width: 700px;
+        height: 600px;
+        margin: 250px auto 0 auto;
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 4fr);
+            grid-gap: 10px;
+            text-align: center;
+
+            & span {
+                display: inline-block;
+                margin: 3px 0 0 0;
+                font-family: C059, serif;
+                font-size: 20px;
+                font-weight: 600;
+                color: #606060;
+            }
+
+            .weekday {
+                width: 50px;
+                margin-bottom: 2rem;
+                transform: rotate(-45deg);
+                font-family: Cantarell, serif;
+                font-size: 1.4rem;
+                font-weight: 600;
+                color: #7e7e7e;
+            }
+
+            .day {
+                cursor: pointer;
+                border-radius: 50%;
+                margin: 20px;
+                width: 50px;
+                height: 50px;
+                background: #fff;
+            }
+
+            .day--empty {
+                margin: auto;
+                width: 40px;
+                height: 40px;
+                background: #202020;
+            }
+
+
+        }
+    }
+}
+

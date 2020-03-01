@@ -1,0 +1,54 @@
+.point-modal {
+    width: 30rem;
+    height: 30rem;
+    background: #606060;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.26);
+    position: fixed;
+    top: 20vh;
+    text-align: center;
+    z-index: 1;
+
+    .point-modal__header {
+        font-family: Cantarell, serif;
+        text-transform: uppercase;
+        font-size: 3rem;
+        font-weight: 900;
+    }
+
+    .point-modal__selected-day {
+        font-family: Cantarell, serif;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
+    .player {
+        font-family: Cantarell, serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin: 50px auto;
+
+
+        .player-sign {
+
+        }
+    }
+
+    .closeMenu {
+        border: none;
+        font-family: Cantarell, serif;
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: white;
+        margin: 40px;
+        padding: 10px 80px;
+        background: rgba(0,0,0, 0.2);
+    }
+}
+
+@media (min-width: 768px) {
+    .point-modal {
+        width: 50rem;
+        left: calc(100% - 50rem) / 2;
+    }
+}
