@@ -71,7 +71,6 @@ class App extends React.Component {
                             login: this.login,
                             logout: this.logout
                         }}>
-                        <Navigation/>
                         <Switch>
                             <Route path="/auth" component={Login}/>
                             <Route path="/home" component={Home}/>

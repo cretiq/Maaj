@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../Style/Home.scss'
-import {setHomeAnimation} from "../Animation/HomeAnimation";
-import {cal, weekdays} from "../Helpers/Helper";
+import {setHomeAnimation, setInitialHomeAnimation} from "../Animation/HomeAnimation";
+import {cal, getDivs, weekdays} from "../Helpers/Helper";
 import PointModal from "../Components/Modal/PointModal";
 import Backdrop from "../Components/Backdrop/Backdrop";
 
@@ -9,8 +9,10 @@ export default class Home extends Component {
 
     state = {
         menuOpen: false,
+        menuShowDates: false,
         selectedDay: null,
-        players: []
+        players: [],
+        points: null,
     };
 
     constructor(props) {
@@ -19,7 +21,7 @@ export default class Home extends Component {
 
     componentDidMount() {
         this.fetchPlayers();
-        setHomeAnimation();
+        setInitialHomeAnimation();
     }
 
     openPointMenu = (day, event) => {
@@ -58,8 +60,8 @@ export default class Home extends Component {
                 }
                 return res.json();
             }).then(resData => {
-            console.log(resData.data.players);
             this.setState({players: resData.data.players});
+            setHomeAnimation()
         })
             .catch(err => {
                 console.log(err);
@@ -88,7 +90,6 @@ export default class Home extends Component {
             body: JSON.stringify(requestBody),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.context.token
             }
         })
             .then(res => {
@@ -100,7 +101,7 @@ export default class Home extends Component {
             if (resData.errors) {
                 this.setState({errorMessage: resData.errors[0].message})
             } else {
-                console.log(resData.data)
+                this.fetchPlayers();
             }
         })
             .catch(err => {
@@ -109,6 +110,30 @@ export default class Home extends Component {
     };
 
     render() {
+
+        const getDate = dates => {
+            return (
+                dates.map((date, i) => {
+                        return (
+                            new Date(date).getDate()
+                        )
+                    }
+                )
+            )
+        };
+
+        const players = this.state.players.map((player, i) => {
+            return (
+                <div key={i} className="point-table__player">
+                    <span className="point-table__player player-nickname">{player.nickname}</span>
+                    <span
+                        className="point-table__player player-point-count">{getDivs(player.points.length, 'bubbles')}</span>
+                    {(player.points.length > 0 && this.state.menuShowDates) &&
+                    <span className="point-table__player player-points">On Date: {getDate(player.points)}</span>
+                    }
+                </div>
+            )
+        });
 
         const getWeekDays = weekdays.map((weekday, i) => {
             return (
@@ -121,7 +146,8 @@ export default class Home extends Component {
                     return (
                         week.map((day, i) => {
                             return (
-                                <div key={i} className={day ? 'day' : 'day day--empty'} onClick={this.openPointMenu.bind(this, day)}>
+                                <div key={i} className={day ? 'day' : 'day day--empty'}
+                                     onClick={this.openPointMenu.bind(this, day)}>
                                     <span> {day} </span>
                                 </div>
                             )
@@ -137,6 +163,11 @@ export default class Home extends Component {
                 <header/>
 
                 <div className="main-home__container">
+                    <div className="maaj-square">
+                        <span>MA</span><br/>
+                        <span>AJ</span>
+                    </div>
+                    <div className="chinese-simplified"><span>女<br/>王</span></div>
                     {
                         this.state.menuOpen &&
                         <React.Fragment>
@@ -146,24 +177,28 @@ export default class Home extends Component {
                                 day={this.state.selectedDay}
                                 addPoint={this.addPoint}
                                 closeModal={this.openPointMenu}>
-                                <p>My Modal</p>
                             </PointModal>
                         </React.Fragment>
                     }
                     <div className="home-main-text__container">
                         <span className="home-main-text" id="main-text-original">
-                            Maaaaj?,&nbsp;<br/>
+                            <div className="top-border"/>
+                            MAAAAJ?<br/>
                         </span>
-                        <span className="home-main-text home-main-text--light" id="main-text-light">maj . . .</span>
+                        <span className="home-main-text home-main-text--light" id="main-text-light">maj...</span>
                     </div>
 
                     <div className="calendar__container">
-
                         <div className="calendar">
                             {getWeekDays}
                             {getMonthLayout}
                             <div className="weekday"/>
                         </div>
+                    </div>
+                </div>
+                <div className="point-table__container">
+                    <div className="point-table">
+                        {players}
                     </div>
                 </div>
             </React.Fragment>

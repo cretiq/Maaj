@@ -13,6 +13,11 @@ export const cal = () => {
     });
 };
 
+export const getDateFromDate = date => {
+    console.log(new Date(date).getDate());
+    return new Date(date).getDate();
+};
+
 export const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export const getDay = date => {

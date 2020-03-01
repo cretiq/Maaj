@@ -23,7 +23,8 @@ export default class PointModal extends Component {
             return (
                 <div key={i} className="player">
                     <div className="player-sign"/>
-                    <span className="player-name" onClick={this.props.addPoint.bind(this, player.nickname)}> {player.nickname} </span>
+                    <span className="player-name"
+                          onClick={this.props.addPoint.bind(this, player.nickname)}> {player.nickname} </span>
                 </div>
             )
         });

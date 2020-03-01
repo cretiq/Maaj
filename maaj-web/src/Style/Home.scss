@@ -1,34 +1,85 @@
+@import url('https://fonts.googleapis.com/css?family=Carrois+Gothic+SC&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Long+Cang&display=swap');
+
+
+html, body {
+    margin: 0;
+    height: 100%;
+    background: rgb(61,61,61);
+    background: radial-gradient(circle at 1800px 0px, rgba(61,61,61,1) 0%, rgba(36,36,36,1) 37%, rgba(6,6,6,1) 100%);
+}
 
 .main-home__container {
+    float: right;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 10rem auto;
+    margin: 8rem auto 3rem auto;
     width: 80%;
 
+    .maaj-square {
+        position: absolute;
+        top: 3rem;
+        left: 22.5rem;
+        font-family: "Source Code Pro Semibold", serif;
+        font-size: 2rem;
+        color: white;
+        border: 2px solid white;
+        line-height: 32px;
+        padding: 5px 6px;
+    }
+
+    .chinese-simplified {
+        position: absolute;
+        top: 7.5rem;
+        left: 22.5rem;
+        margin-top: 10px;
+        font-family: Long Cang, serif;
+        line-height: 48px;
+        font-size: 3rem;
+        color: white;
+    }
+
     .home-main-text__container {
+        position: relative;
+        width: 800px;
+        height: 400px;
         margin: 0 auto;
 
         .home-main-text {
             position: absolute;
-            font-family: Montserrat, serif;
-            font-size: 3.5rem;
-            font-weight: 600;
+            text-align: center;
+            margin: 0 auto;
+            width: 800px;
+            font-family: "Source Code Pro Black", serif;
+            font-size: 10rem;
             color: #fff;
             opacity: 0;
+
+            .top-border {
+                position: absolute;
+                left: 50%;
+                width: 5px;
+                height: 5px;
+                background: white;
+            }
         }
 
         .home-main-text--light {
+            position: absolute;
             font-weight: 400;
+            top: 250px;
             opacity: 0;
             font-size: 2.5rem;
+            border-bottom: none;
         }
     }
 
     .calendar__container {
         width: 700px;
         height: 600px;
-        margin: 250px auto 0 auto;
+        margin: 0 auto;
 
         .calendar {
             display: grid;
@@ -39,7 +90,7 @@
             & span {
                 display: inline-block;
                 margin: 3px 0 0 0;
-                font-family: C059, serif;
+                font-family: "Source Code Pro", serif;
                 font-size: 20px;
                 font-weight: 600;
                 color: #606060;
@@ -49,7 +100,7 @@
                 width: 50px;
                 margin-bottom: 2rem;
                 transform: rotate(-45deg);
-                font-family: Cantarell, serif;
+                font-family: "Source Code Pro", serif;
                 font-size: 1.4rem;
                 font-weight: 600;
                 color: #7e7e7e;
@@ -68,7 +119,7 @@
                 margin: auto;
                 width: 40px;
                 height: 40px;
-                background: #202020;
+                background: #454545;
             }
 
 
@@ -76,3 +127,48 @@
     }
 }
 
+.point-table__container {
+    position: fixed;
+    float: left;
+    width: 14rem;
+    height: 100%;
+    background: #888;
+    padding: 50px;
+
+    .point-table {
+        width: 700px;
+        height: 600px;
+        margin: 0 auto 0 auto;
+
+
+        .point-table__player {
+            color: #d2c6c8;
+            margin-bottom: 10px;
+            font-family: "Source Code Pro", serif;
+            font-weight: 600;
+            font-size: 1rem;
+            display: table;
+
+            .player-nickname {
+                font-size: 1.2rem;
+                text-transform: uppercase;
+            }
+            .player-point-count {
+                width: 100px;
+                height: 50px;
+                display: grid;
+                grid-row-gap: 5px;
+                grid-column-gap: 5px;
+                grid-template-rows: repeat(10, 5fr);
+                grid-template-columns: repeat(10, 6fr);
+
+                .bubbles {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background: white;
+                }
+            }
+        }
+    }
+}
