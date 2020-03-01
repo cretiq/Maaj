@@ -4,6 +4,9 @@ import {setHomeAnimation, setInitialHomeAnimation} from "../Animation/HomeAnimat
 import {cal, getDivs, weekdays} from "../Helpers/Helper";
 import PointModal from "../Components/Modal/PointModal";
 import Backdrop from "../Components/Backdrop/Backdrop";
+import "splitting/dist/splitting.css";
+import "splitting/dist/splitting-cells.css";
+import Splitting from "splitting";
 
 export default class Home extends Component {
 
@@ -162,10 +165,12 @@ export default class Home extends Component {
 
                 <header/>
 
+
                 <div className="main-home__container">
                     <div className="maaj-square">
                         <span>MA</span><br/>
                         <span>AJ</span>
+                        <div className="hello">Hello there</div>
                     </div>
                     <div className="chinese-simplified"><span>女<br/>王</span></div>
                     {

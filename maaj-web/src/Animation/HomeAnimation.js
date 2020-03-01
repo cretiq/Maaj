@@ -1,4 +1,6 @@
 import anime from 'animejs';
+import React from "react";
+import Splitting from "splitting";
 
 const getEl = (element, getAllElements) => {
     return getAllElements ? document.querySelectorAll(element) : document.querySelector(element);
@@ -54,10 +56,11 @@ export const setInitialHomeAnimation = () => {
     const mainTextTopBorder = getEl('.top-border', false);
     const MAAJ = getEl('.maaj-square');
     const chinese = getEl('.chinese-simplified > span', false);
-    console.log(chinese);
 
-    const textArr = chinese.splitText(3);
-    console.log(textArr)
+    const hello = getEl('.hello');
+
+    const split = Splitting({ target: hello, by: 'chars'});
+    console.log(split)
 
     const tl = anime.timeline({});
     tl.add({
@@ -72,6 +75,14 @@ export const setInitialHomeAnimation = () => {
         scaleX: 140,
         duration: 1500,
         easing: 'cubicBezier(0,.9,.18,1)',
+    });
+    tl.add({
+        targets: split[0].chars,
+        translateY: '50px',
+        duration: 1000,
+        opacity: [0, 1],
+        easing: 'cubicBezier(0,.9,.18,1)',
+        delay: anime.stagger(100)
     });
     tl.add({
         targets: mainTextHello,
