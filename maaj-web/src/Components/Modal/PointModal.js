@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../../Style/PointModal.scss'
-import {setModalAnimation} from "../../Animation/PointModal";
+import {openModalAnimation} from "../../Animation/PointModal";
 
 export default class PointModal extends Component {
 
@@ -14,7 +14,7 @@ export default class PointModal extends Component {
     }
 
     componentDidMount() {
-        setModalAnimation();
+        openModalAnimation();
     }
 
     render() {

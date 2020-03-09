@@ -6,7 +6,7 @@ import PointModal from "../Components/Modal/PointModal";
 import Backdrop from "../Components/Backdrop/Backdrop";
 import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
-import Splitting from "splitting";
+import {closeModalAnimation, openModalAnimation} from "../Animation/PointModal";
 
 export default class Home extends Component {
 
@@ -33,6 +33,7 @@ export default class Home extends Component {
             menuOpen: !this.state.menuOpen,
             selectedDay: day
         })
+        this.state.menuOpen ? openModalAnimation() : closeModalAnimation()
     };
 
     fetchPlayers() {
@@ -170,9 +171,8 @@ export default class Home extends Component {
                     <div className="maaj-square">
                         <span>MA</span><br/>
                         <span>AJ</span>
-                        <div className="hello">Hello there</div>
                     </div>
-                    <div className="chinese-simplified"><span>女<br/>王</span></div>
+                    <div className="lady-text">女王</div>
                     {
                         this.state.menuOpen &&
                         <React.Fragment>
@@ -188,9 +188,8 @@ export default class Home extends Component {
                     <div className="home-main-text__container">
                         <span className="home-main-text" id="main-text-original">
                             <div className="top-border"/>
-                            MAAAAJ?<br/>
+                            <h2 className="headline">MAAAAAJ</h2>
                         </span>
-                        <span className="home-main-text home-main-text--light" id="main-text-light">maj...</span>
                     </div>
 
                     <div className="calendar__container">

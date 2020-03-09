@@ -6,8 +6,8 @@
 html, body {
     margin: 0;
     height: 100%;
-    background: rgb(61,61,61);
-    background: radial-gradient(circle at 1800px 0px, rgba(61,61,61,1) 0%, rgba(36,36,36,1) 37%, rgba(6,6,6,1) 100%);
+    background: rgb(61, 61, 61);
+    background: radial-gradient(circle at 1800px 0px, rgba(61, 61, 61, 1) 0%, rgba(36, 36, 36, 1) 37%, rgba(6, 6, 6, 1) 100%);
 }
 
 .main-home__container {
@@ -30,10 +30,11 @@ html, body {
         padding: 5px 6px;
     }
 
-    .chinese-simplified {
+    .lady-text {
         position: absolute;
-        top: 7.5rem;
-        left: 22.5rem;
+        writing-mode: vertical-lr;
+        top: 1.5rem;
+        left: 22.7rem;
         margin-top: 10px;
         font-family: Long Cang, serif;
         line-height: 48px;
@@ -43,19 +44,24 @@ html, body {
 
     .home-main-text__container {
         position: relative;
-        width: 800px;
+        width: 1000px;
         height: 400px;
         margin: 0 auto;
 
-        .home-main-text {
-            position: absolute;
+        .headline {
             text-align: center;
             margin: 0 auto;
             width: 800px;
             font-family: "Source Code Pro Black", serif;
             font-size: 10rem;
             color: #fff;
-            opacity: 0;
+            letter-spacing: 10px;
+
+            .char {
+                opacity: 0;
+                position: relative;
+                display: inline-block;
+            }
 
             .top-border {
                 position: absolute;
@@ -153,6 +159,7 @@ html, body {
                 font-size: 1.2rem;
                 text-transform: uppercase;
             }
+
             .player-point-count {
                 width: 100px;
                 height: 50px;

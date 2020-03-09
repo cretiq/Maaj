@@ -1,12 +1,12 @@
 import React from "react";
 
-let calendar = require('calendar-month-array')
+let calendar = require('calendar-month-array');
 let sprintf = require('sprintf')
 
 
 export const cal = () => {
-    return calendar(new Date(new Date().getFullYear(), new Date().getMonth() + 1), {
-        weekStartDay: 1,
+    return calendar(new Date(new Date().getFullYear(), new Date().getMonth()), {
+        weekStartDay: 0,
         formatHeader: date => date.toString().slice(0, 2),
         formatDate: date => sprintf('%2d', date.getDate()),
         formatSiblingMonthDate: () => ''
