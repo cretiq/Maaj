@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../Style/Home.scss'
 import {setHomeAnimation, setInitialHomeAnimation} from "../Animation/HomeAnimation";
-import {cal, getDivs, weekdays} from "../Helpers/Helper";
+import {cal, getDivs, weekdaysLetter} from "../Helpers/Helper";
 import PointModal from "../Components/Modal/PointModal";
 import Backdrop from "../Components/Backdrop/Backdrop";
 import "splitting/dist/splitting.css";
@@ -25,6 +25,7 @@ export default class Home extends Component {
     componentDidMount() {
         this.fetchPlayers();
         setInitialHomeAnimation();
+        this.setToday();
     }
 
     openPointMenu = (day, event) => {
@@ -113,6 +114,19 @@ export default class Home extends Component {
             });
     };
 
+    setToday = () => {
+        let day = document.querySelectorAll('.day');
+        let element = document.querySelectorAll('.day > span');
+        element.forEach((item, i) => {
+            console.log(item.textContent.trim(' '));
+            console.log(new Date().getDate().toString());
+            if (new Date().getDate().toString() === item.textContent.trim(' ')) {
+                console.log("foundit");
+                day[i].classList.add('day--today');
+            }
+        });
+    }
+
     render() {
 
         const getDate = dates => {
@@ -139,7 +153,7 @@ export default class Home extends Component {
             )
         });
 
-        const getWeekDays = weekdays.map((weekday, i) => {
+        const getWeekDays = weekdaysLetter.map((weekday, i) => {
             return (
                 <div className="weekday" key={i}>{weekday}</div>
             )
@@ -149,12 +163,14 @@ export default class Home extends Component {
                 if (i > 0) {
                     return (
                         week.map((day, i) => {
+                            let today = new Date().getDate().toString();
                             return (
-                                <div key={i} className={day ? 'day' : 'day day--empty'}
+                                <div key={i}
+                                     className={day ? 'day' : 'day day--empty'}
                                      onClick={this.openPointMenu.bind(this, day)}>
                                     <span> {day} </span>
                                 </div>
-                            )
+                            );
                         })
                     );
                 }
@@ -165,7 +181,6 @@ export default class Home extends Component {
             <React.Fragment>
 
                 <header/>
-
 
                 <div className="main-home__container">
                     <div className="maaj-square">
@@ -188,14 +203,14 @@ export default class Home extends Component {
                     <div className="home-main-text__container">
                         <span className="home-main-text" id="main-text-original">
                             <div className="top-border"/>
-                            <h2 className="headline">MAAAAAJ</h2>
+                            <h2 className="headline">MAAAAJ</h2>
                         </span>
                     </div>
 
                     <div className="calendar__container">
                         <div className="calendar">
-                            {getWeekDays}
                             {getMonthLayout}
+                            {getWeekDays}
                             <div className="weekday"/>
                         </div>
                     </div>

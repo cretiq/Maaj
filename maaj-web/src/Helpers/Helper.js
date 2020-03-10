@@ -19,6 +19,7 @@ export const getDateFromDate = date => {
 };
 
 export const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+export const weekdaysLetter = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
 export const getDay = date => {
     let d = new Date(date);

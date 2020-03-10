@@ -58,112 +58,117 @@ export const setInitialHomeAnimation = () => {
     Splitting({target: '.headline', by: 'chars'});
     Splitting({target: '.lady-text', by: 'chars'});
 
-    const tl = anime.timeline({});
-    tl.add({
-        targets: mainTextTopBorder,
-        translateY: ['-100px', '210px'],
-        delay: 100,
-        duration: 800,
-        easing: 'cubicBezier(0,.9,0,.99)',
-    });
-    tl.add({
-        targets: mainTextTopBorder,
-        scaleX: 140,
-        duration: 1500,
-        easing: 'cubicBezier(0,.9,.18,1)',
-    }, '-=800');
-    tl.add({
-        targets: '.lady-text .char',
-        translateY: ['-100px', '100px'],
+
+
+    let rainBowInverted = [10, 30, 50, 65, 50, -15];
+    let rainBow = [90, 45, 20, 20, 45, 90];
+
+    const headLineTimeLine = anime.timeline({});        // MAAAAJ INITILIZATION --------------
+    headLineTimeLine.add({
+        targets: '.headline .char',
+        rotate: {
+            value: (el, y) => `${-(y - 3) * 10}deg`,
+            duration: 100,
+        },
+        translateY: {
+            value: (el, i) => ['-100px', rainBowInverted[i]],
+            duration: 500,
+            easing: 'easeOutExpo',
+        },
         duration: 1000,
         opacity: [0, 1],
-        easing: 'cubicBezier(0,1,0,1)',
-        delay: anime.stagger(200)
-    }, '-=1500');
-    tl.add({
-        targets: mainTextLight,
-        opacity: 1,
-        duration: 1000,
-        easing: 'linear'
-    }, '-=1500');
-
-    let rainBowInverted = [10, 30, 50, 90, 65, 50, -15];
-    let rainBow = [90, 45, 20, 10, 20, 45, 90];
-
-    const calendarAnim = anime.timeline({});
-    calendarAnim.add({
-        targets: monthDots,
-        scale: [
-            {value: [0, 1], easing: 'easeOutBack', duration: 500}
-        ],
-        delay: anime.stagger(200, {grid: [7, 5], from: "center"})
+        delay: anime.stagger(600)
     });
-    calendarAnim.add({
-        targets: weekday,
-        scale: [
-            {value: [0, 1], easing: 'easeOutBack', duration: 500}
-        ],
-        rotate: [0, '-45deg'],
-        delay: anime.stagger(50),
-    }, '-=500');
+    headLineTimeLine.add({
+        targets: '.headline .char',
+        rotate: '0deg',
+        translateY: '0px',
+        duration: 1000,
+        letterSpacing: '-70px',
+        easing: 'cubicBezier(0,1,0,1)',
+    });
+    headLineTimeLine.add({
+        targets: '.headline .char',
+        letterSpacing: '5px',
+        duration: 1000,
+        easing: 'cubicBezier(0,1,0,1)',
+    }, '-=200');
 
-    calendarAnim.finished.then(e => {
-
-
-        const headLineTimeLine = anime.timeline({});
-        headLineTimeLine.add({
-            targets: '.headline .char',
-            rotate: {
-                value: (el, y) => `${-(y - 3) * 10}deg`,
-                duration: 100,
-            },
-            translateY: {
-                value: (el, i) => ['-100px', rainBowInverted[i]],
-                duration: 500,
-                easing: 'easeOutExpo',
-            },
-            duration: 1000,
-            opacity: [0, 1],
-            delay: anime.stagger(600)
+    headLineTimeLine.finished.then(() => {                       // CALENDAR ---------------------
+        const calCon = getEl('.calendar__container');
+        calCon.style.visibility = 'visible';
+        const calendarAnim = anime.timeline({});
+        calendarAnim.add({
+            targets: monthDots,
+            scale: [
+                {value: [0, 1], easing: 'easeOutBack', duration: 500}
+            ],
+            delay: anime.stagger(200, {grid: [7, 5], from: "center"})
         });
-        headLineTimeLine.add({
-            autoplay: false,
-            targets: '.headline .char',
-            rotate: '0deg',
-            translateY: '0px',
-            duration: 1000,
-            letterSpacing: '-70px',
-            easing: 'cubicBezier(0,1,0,1)',
-        });
-        headLineTimeLine.add({
-            autoplay: false,
-            rotate: {
-                value: (el, y) => `${(y - 3) * 10}deg`,
-                duration: 700,
-            },
-            translateY: {
-                value: (el, i) => rainBow[i],
-                duration: 800,
-                easing: 'easeOutExpo',
-            },
-            targets: '.headline .char',
-            letterSpacing: '5px',
-            duration: 1000,
-            easing: 'cubicBezier(0,1,0,1)',
-        }, '-=200');
+        calendarAnim.add({
+            targets: weekday,
+            scale: [
+                {value: [0, 1], easing: 'easeOutBack', duration: 500}
+            ],
+            delay: anime.stagger(50),
+        }, '-=500');
 
-        headLineTimeLine.finished.then(active => {
-            console.log(active);
+        calendarAnim.finished.then(() => {              // MAAAAJ TRANSLATION X Y ----------------------
+            let headLineLetters = getEl('.headline .char', true);
+            const threeFirst = Object.values(headLineLetters).slice(0, 3);
+            const threeLast = Object.values(headLineLetters).slice(3, 6);
+
+            console.log(threeFirst);
             const headLineTimeLineJumping = anime.timeline({loop: true});
             headLineTimeLineJumping.add({
-                targets: '.headline .char',
-                translateY: [
-                    {value: '-=40px', duration: 300, delay: (el, i) => 50 * i, easing: 'easeInBack'},
-                    {value: '+=40px', duration: 300, easing: 'easeOutBack'},
-                    {value: '+=0px', duration: 1000, easing: 'easeOutBack'},
+                targets: threeFirst,
+                keyframes: [
+                    {translateY: -70, duration: 600, easing: 'cubicBezier(0,1,0,1)'},
+                    {translateX: 330, duration: 600, easing: 'cubicBezier(0,1,0,1)'},
+                    {translateY: 70, duration: 600, easing: 'cubicBezier(0,1,0,1)'},
+                    {translateX: 0, duration: 600, easing: 'cubicBezier(0,1,0,1)'},
+                    {translateY: 0, duration: 1000, easing: 'cubicBezier(0,1,0,1)'},
                 ],
-                duration: 1000,
+            });
+            headLineTimeLineJumping.add({
+                targets: threeLast,
+                keyframes: [
+                    {translateY: 70, duration: 600, easing: 'cubicBezier(0,1,0,1)'},
+                    {translateX: -330, duration: 600, easing: 'cubicBezier(0,1,0,1)'},
+                    {translateY: -70, duration: 600, easing: 'cubicBezier(0,1,0,1)'},
+                    {translateX: 0, duration: 600, easing: 'cubicBezier(0,1,0,1)'},
+                    {translateY: 0, duration: 1000, easing: 'cubicBezier(0,1,0,1)'},
+                ],
+            }, '0');
+            headLineTimeLineJumping.add({
+                targets: headLineLetters,
+                scale: [
+                    {value: 1.3, duration: 400, delay: anime.stagger(100), easing: 'easeOutExpo'},
+                ]
             })
+            headLineTimeLineJumping.add({
+                targets: headLineLetters,
+                scale: [
+                    {value: 1.0, duration: 400, delay: anime.stagger(100), easing: 'easeOutExpo'},
+                ]
+            }, '-=250').finished.then(() => {
+            })
+            const tl = anime.timeline({});
+            tl.add({
+                targets: '.lady-text .char',
+                translateY: ['-100px', '100px'],
+                duration: 1000,
+                opacity: [0, 1],
+                easing: 'cubicBezier(0,1,0,1)',
+                delay: anime.stagger(200)
+            }, '-=1500');
+            tl.add({
+                targets: mainTextLight,
+                opacity: 1,
+                duration: 1000,
+                easing: 'linear'
+            }, '-=1500');
         })
     });
-}
+};
+

@@ -83,6 +83,7 @@ html, body {
     }
 
     .calendar__container {
+        visibility: hidden;
         width: 700px;
         height: 600px;
         margin: 0 auto;
@@ -104,21 +105,28 @@ html, body {
 
             .weekday {
                 width: 50px;
-                margin-bottom: 2rem;
-                transform: rotate(-45deg);
+                height: 50px;
+                margin: 20px;
                 font-family: "Source Code Pro", serif;
-                font-size: 1.4rem;
-                font-weight: 600;
-                color: #7e7e7e;
+                font-size: 3rem;
+                font-weight: 900;
+                color: #454545;
             }
 
             .day {
                 cursor: pointer;
                 border-radius: 50%;
-                margin: 20px;
+                padding: 10px;
+                margin: 10px;
                 width: 50px;
                 height: 50px;
                 background: #fff;
+            }
+            
+            .day--today {
+                padding: 7px;
+                margin: 7px;
+                border: #fa716b solid 6px;
             }
 
             .day--empty {
@@ -127,25 +135,21 @@ html, body {
                 height: 40px;
                 background: #454545;
             }
-
-
         }
     }
 }
 
 .point-table__container {
     position: fixed;
-    float: left;
-    width: 14rem;
+    width: 12rem;
     height: 100%;
-    background: #888;
+    background: rgba(0,0,0,0.1);
     padding: 50px;
 
     .point-table {
-        width: 700px;
+        width: 12rem;
         height: 600px;
-        margin: 0 auto 0 auto;
-
+        margin: 0 auto;
 
         .point-table__player {
             color: #d2c6c8;
