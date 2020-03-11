@@ -1,8 +1,7 @@
 import React from "react";
 
 let calendar = require('calendar-month-array');
-let sprintf = require('sprintf')
-
+let sprintf = require('sprintf');
 
 export const cal = () => {
     return calendar(new Date(new Date().getFullYear(), new Date().getMonth()), {
@@ -13,7 +12,7 @@ export const cal = () => {
     });
 };
 
-export const getDateFromDate = date => {
+export const getDateFromDates = date => {
     console.log(new Date(date).getDate());
     return new Date(date).getDate();
 };
@@ -64,3 +63,27 @@ export const getDivs = (n, name, id) => {
         );
     }
 };
+
+export const pointTableBubbles = (n, name, playerPoints) => {
+
+    let pointDates = [];
+    playerPoints.forEach(point => {
+        pointDates.push(new Date(point).getDate());
+    });
+
+    let divArr = new Array(n).fill(null);
+    divArr.forEach((i, n) => {
+        divArr[n] = n;
+    });
+
+    return (
+        divArr.map((n) => {
+            return (
+                <div className={name} key={n}>
+                    <span className="point-dates">{pointDates[n]}</span>
+                </div>
+            )
+        })
+    );
+};
+

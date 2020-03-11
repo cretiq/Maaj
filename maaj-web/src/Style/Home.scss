@@ -1,7 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Carrois+Gothic+SC&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Long+Cang&display=swap');
-
 
 html, body {
     margin: 0;
@@ -12,11 +9,8 @@ html, body {
 
 .main-home__container {
     float: right;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     margin: 8rem auto 3rem auto;
-    width: 80%;
+    width: calc(100% - 18rem);
 
     .maaj-square {
         position: absolute;
@@ -31,6 +25,7 @@ html, body {
     }
 
     .lady-text {
+        opacity: 0;
         position: absolute;
         writing-mode: vertical-lr;
         top: 1.5rem;
@@ -56,12 +51,6 @@ html, body {
             font-size: 10rem;
             color: #fff;
             letter-spacing: 10px;
-
-            .char {
-                opacity: 0;
-                position: relative;
-                display: inline-block;
-            }
 
             .top-border {
                 position: absolute;
@@ -144,7 +133,7 @@ html, body {
     width: 12rem;
     height: 100%;
     background: rgba(0,0,0,0.1);
-    padding: 50px;
+    padding: 3rem;
 
     .point-table {
         width: 12rem;
@@ -174,10 +163,16 @@ html, body {
                 grid-template-columns: repeat(10, 6fr);
 
                 .bubbles {
+                    text-align: center;
                     width: 40px;
                     height: 40px;
                     border-radius: 50%;
                     background: white;
+                    transform: scale(0);
+
+                    .point-dates {
+                        color: #252525;
+                    }
                 }
             }
         }

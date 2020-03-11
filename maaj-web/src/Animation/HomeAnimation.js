@@ -10,6 +10,7 @@ export const setHomeAnimation = () => {
 
     const monthDots = getEl('.day', true);
     const pointTablePlayerPoints = getEl('.bubbles', true);
+    const pointTableBubbles = getEl('.bubbles', true);
 
     // PLAYERS, POINTS AND CALENDAR
 
@@ -46,24 +47,25 @@ export const setHomeAnimation = () => {
             })
         })
     })
+    anime({
+        targets: pointTableBubbles,
+        scale: [0, 1], easing: 'easeOutBack', duration: 500,
+        delay: anime.stagger(100)
+    });
 };
 
 export const setInitialHomeAnimation = () => {
 
     const weekday = getEl('.weekday', true);
+    const calCon = getEl('.calendar__container', false);
     const monthDots = getEl('.day', true);
-    const mainTextLight = getEl('#main-text-light', false);
-    const mainTextTopBorder = getEl('.top-border', false);
 
     Splitting({target: '.headline', by: 'chars'});
     Splitting({target: '.lady-text', by: 'chars'});
 
-
-
     let rainBowInverted = [10, 30, 50, 65, 50, -15];
-    let rainBow = [90, 45, 20, 20, 45, 90];
 
-    const headLineTimeLine = anime.timeline({});        // MAAAAJ INITILIZATION --------------
+    const headLineTimeLine = anime.timeline({});                       // MAAAAJ INITILIZATION --------------
     headLineTimeLine.add({
         targets: '.headline .char',
         rotate: {
@@ -94,8 +96,8 @@ export const setInitialHomeAnimation = () => {
         easing: 'cubicBezier(0,1,0,1)',
     }, '-=200');
 
-    headLineTimeLine.finished.then(() => {                       // CALENDAR ---------------------
-        const calCon = getEl('.calendar__container');
+
+    headLineTimeLine.finished.then(() => {                           // CALENDAR ---------------------
         calCon.style.visibility = 'visible';
         const calendarAnim = anime.timeline({});
         calendarAnim.add({
@@ -113,12 +115,25 @@ export const setInitialHomeAnimation = () => {
             delay: anime.stagger(50),
         }, '-=500');
 
-        calendarAnim.finished.then(() => {              // MAAAAJ TRANSLATION X Y ----------------------
+        anime({
+            targets: '.lady-text .char',
+            translateY: ['-100px', '100px'],
+            duration: 1000,
+            easing: 'cubicBezier(0,1,0,1)',
+            delay: anime.stagger(200)
+        });
+        anime({
+            targets: '.lady-text',
+            opacity: [{ value: 1, duration: 2000, delay: 200 }],
+            easing: 'cubicBezier(0,1,0,1)',
+            delay: anime.stagger(200),
+        });
+
+        calendarAnim.finished.then(() => {                            // MAAAAJ TRANSLATION X Y ----------------------
             let headLineLetters = getEl('.headline .char', true);
             const threeFirst = Object.values(headLineLetters).slice(0, 3);
             const threeLast = Object.values(headLineLetters).slice(3, 6);
 
-            console.log(threeFirst);
             const headLineTimeLineJumping = anime.timeline({loop: true});
             headLineTimeLineJumping.add({
                 targets: threeFirst,
@@ -152,23 +167,7 @@ export const setInitialHomeAnimation = () => {
                     {value: 1.0, duration: 400, delay: anime.stagger(100), easing: 'easeOutExpo'},
                 ]
             }, '-=250').finished.then(() => {
-            })
-            const tl = anime.timeline({});
-            tl.add({
-                targets: '.lady-text .char',
-                translateY: ['-100px', '100px'],
-                duration: 1000,
-                opacity: [0, 1],
-                easing: 'cubicBezier(0,1,0,1)',
-                delay: anime.stagger(200)
-            }, '-=1500');
-            tl.add({
-                targets: mainTextLight,
-                opacity: 1,
-                duration: 1000,
-                easing: 'linear'
-            }, '-=1500');
+            });
         })
     });
 };
-

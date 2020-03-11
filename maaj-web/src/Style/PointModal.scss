@@ -7,6 +7,7 @@
     top: 20vh;
     text-align: center;
     z-index: 1;
+    left: calc((100% - 32rem)/2);
 
     .point-modal__header {
         font-family: Cantarell, serif;

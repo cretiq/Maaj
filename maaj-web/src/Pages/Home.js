@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../Style/Home.scss'
 import {setHomeAnimation, setInitialHomeAnimation} from "../Animation/HomeAnimation";
-import {cal, getDivs, weekdaysLetter} from "../Helpers/Helper";
+import {cal, pointTableBubbles, weekdaysLetter} from "../Helpers/Helper";
 import PointModal from "../Components/Modal/PointModal";
 import Backdrop from "../Components/Backdrop/Backdrop";
 import "splitting/dist/splitting.css";
@@ -15,7 +15,7 @@ export default class Home extends Component {
         menuShowDates: false,
         selectedDay: null,
         players: [],
-        points: null,
+        pointsToPlayer: [],
     };
 
     constructor(props) {
@@ -33,7 +33,7 @@ export default class Home extends Component {
         this.setState({
             menuOpen: !this.state.menuOpen,
             selectedDay: day
-        })
+        });
         this.state.menuOpen ? openModalAnimation() : closeModalAnimation()
     };
 
@@ -65,8 +65,10 @@ export default class Home extends Component {
                 }
                 return res.json();
             }).then(resData => {
-            this.setState({players: resData.data.players});
-            setHomeAnimation()
+            let sortedPlayers = this.sortPlayerByPoint(resData.data.players);
+            this.setState({players: sortedPlayers});
+            setHomeAnimation();
+            this.pointsToPlayer();
         })
             .catch(err => {
                 console.log(err);
@@ -118,13 +120,39 @@ export default class Home extends Component {
         let day = document.querySelectorAll('.day');
         let element = document.querySelectorAll('.day > span');
         element.forEach((item, i) => {
-            console.log(item.textContent.trim(' '));
-            console.log(new Date().getDate().toString());
             if (new Date().getDate().toString() === item.textContent.trim(' ')) {
-                console.log("foundit");
                 day[i].classList.add('day--today');
             }
         });
+    };
+
+    pointsToPlayer = () => {
+        let points = [[], []];
+        this.state.players.forEach(player => {
+            player.points.forEach(point => {
+                points[0].push(point);
+                points[1].push(player.nickname);
+            })
+        });
+    };
+
+    sortPlayerByPoint = players => {
+        let sortedPlayers = players;
+
+
+        players.forEach((player, i) => {
+
+            this.comparePoints(player.points,)
+
+        })
+
+        return sortedPlayers;
+    }
+
+    comparePoints( a, b ) {
+        if ( a < b ) return -1;
+        if ( a > b ) return 1;
+        return 0;
     }
 
     render() {
@@ -145,9 +173,12 @@ export default class Home extends Component {
                 <div key={i} className="point-table__player">
                     <span className="point-table__player player-nickname">{player.nickname}</span>
                     <span
-                        className="point-table__player player-point-count">{getDivs(player.points.length, 'bubbles')}</span>
-                    {(player.points.length > 0 && this.state.menuShowDates) &&
-                    <span className="point-table__player player-points">On Date: {getDate(player.points)}</span>
+                        className="point-table__player player-point-count">
+                        {pointTableBubbles(player.points.length, 'bubbles', player.points)}
+                    </span>
+                    {
+                        (player.points.length > 0 && this.state.menuShowDates) &&
+                        <span className="point-table__player player-points">On Date: {getDate(player.points)}</span>
                     }
                 </div>
             )
@@ -163,11 +194,10 @@ export default class Home extends Component {
                 if (i > 0) {
                     return (
                         week.map((day, i) => {
-                            let today = new Date().getDate().toString();
                             return (
                                 <div key={i}
                                      className={day ? 'day' : 'day day--empty'}
-                                     onClick={this.openPointMenu.bind(this, day)}>
+                                     onClick={day ? this.openPointMenu.bind(this, day) : null}>
                                     <span> {day} </span>
                                 </div>
                             );
@@ -223,4 +253,4 @@ export default class Home extends Component {
             </React.Fragment>
         );
     }
-}
+};

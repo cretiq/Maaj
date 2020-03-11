@@ -7,7 +7,6 @@ const getEl = (element, getAllElements) => {
 export const openModalAnimation = () => {
     const modal = getEl('.point-modal', false);
 
-    console.log(modal);
     anime({
         targets: modal,
         scale: [0, 1],
@@ -17,7 +16,6 @@ export const openModalAnimation = () => {
 export const closeModalAnimation = () => {
     const modal = getEl('.point-modal', false);
 
-    console.log(modal);
     anime({
         targets: modal,
         scale: [1, 0],
