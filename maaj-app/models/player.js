@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const playerShema = new Schema({
+const playerSchema = new Schema({
     nickname: {
         type: String,
         required: true
@@ -17,10 +17,10 @@ const playerShema = new Schema({
     },
     points: [
         {
-            type: String,
-            required: true
+            type: Schema.Types.ObjectId,
+            ref: 'Point'
         }
     ],
 });
 
-module.exports = mongoose.model('Player', playerShema);
+module.exports = mongoose.model('Player', playerSchema);

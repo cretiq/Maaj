@@ -64,26 +64,3 @@ export const getDivs = (n, name, id) => {
     }
 };
 
-export const pointTableBubbles = (n, name, playerPoints) => {
-
-    let pointDates = [];
-    playerPoints.forEach(point => {
-        pointDates.push(new Date(point).getDate());
-    });
-
-    let divArr = new Array(n).fill(null);
-    divArr.forEach((i, n) => {
-        divArr[n] = n;
-    });
-
-    return (
-        divArr.map((n) => {
-            return (
-                <div className={name} key={n}>
-                    <span className="point-dates">{pointDates[n]}</span>
-                </div>
-            )
-        })
-    );
-};
-

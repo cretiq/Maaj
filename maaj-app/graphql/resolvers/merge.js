@@ -1,36 +1,38 @@
 const Player = require('../../models/player');
+const Point = require('../../models/point');
 
-const points = async statusUpdateIds => {
+const points = async point => {
     try {
-        const statusUpdates = await StatusUpdate.find({ _id: { $in: statusUpdateIds } });
-        return statusUpdates.map(statusUpdate => {
-            return transformStatusUpdate(statusUpdate);
+        const points = await point.find({ _id: { $in: pointIds } });
+        return points.map(point => {
+            return transformPoint(point);
         });
     } catch (err) {
         throw err;
     }
 };
 
-const user = async userId => {
+const getPoint = async pointId => {
     try {
-        const player = await Player.findById(userId);
-        return {
-            ...player._doc,
-            _id: player.id,
-            points: statusUpdates.bind(this, player._doc.points)
-        };
+        const points = await Point.find({ _id: { $in: pointId }});
+        return points.map(point => {
+            return {
+                ...point._doc,
+                _id: point.id,
+                date: new Date(point._doc.date).toISOString(),
+            }
+        });
     } catch (err) {
         throw err;
     }
 };
 
-const transformPoint = points => {
+const transformPlayer = player => {
     return {
-        ...points._doc,
-        _id: points.id,
-        date: new Date(points._doc.date).toISOString(),
-        creator: user.bind(this, points.creator)
+        ...player._doc,
+        _id: player.id,
+        points: getPoint.bind(this, player.points)
     };
 };
 
-exports.transformStatusUpdate = transformStatusUpdate;
+exports.transformPlayer = transformPlayer;

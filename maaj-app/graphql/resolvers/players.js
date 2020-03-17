@@ -1,3 +1,5 @@
+const {transformPlayer} = require("./merge");
+const Point = require('../../models/point');
 const Player = require('../../models/player');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -6,17 +8,29 @@ module.exports = {
 
     players: async () => {
         try {
-            const player = await Player.find();
-            return player.map(player => {
+            const players = await Player.find();
+            return players.map(player => {
+                return transformPlayer(player)
+            })
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    points: async () => {
+        try {
+            const points = await Point.find();
+            return points.map(point => {
                 return {
-                    ...player._doc,
-                    _id: player.id
+                    ...point._doc,
+                    _id: point.id
                 }
             })
         } catch (err) {
             throw err;
         }
     },
+
 
     createPlayer: async args => {
         try {
@@ -45,13 +59,37 @@ module.exports = {
     },
 
     givePoint: async args => {
-        const point = args.date;
+        const point = new Point({
+            date: args.date
+        });
+        let transformedPlayer;
         try {
+            const result = await point.save();
             const player = await Player.findOne({nickname: args.nickname});
             if (!player) { throw new Error('User not found.'); }
-            player.points.push(point);
+
+            transformedPlayer = transformPlayer(player);
+
+            player.points.push(result);
             await player.save();
-            return player;
+            return transformedPlayer;
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    },
+
+    deletePoint: async args => {
+        let transformedPlayer;
+        try {
+            console.log(args.pointId);
+            const player = await Player.findOne({nickname: args.nickname});
+            transformedPlayer = transformPlayer(player);
+            const point = await Point.findById(args.pointId).populate('points');
+            await point.deleteOne({_id: args.pointId});
+
+            return transformedPlayer;
+
         } catch (err) {
             console.log(err);
             throw err;

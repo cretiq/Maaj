@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import '../Style/Home.scss'
 import {setHomeAnimation, setInitialHomeAnimation} from "../Animation/HomeAnimation";
-import {cal, pointTableBubbles, weekdaysLetter} from "../Helpers/Helper";
+import {cal, weekdaysLetter} from "../Helpers/Helper";
 import PointModal from "../Components/Modal/PointModal";
 import Backdrop from "../Components/Backdrop/Backdrop";
 import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
 import {closeModalAnimation, openModalAnimation} from "../Animation/PointModal";
+import PointPanel from "../Components/PointPanel/PointPanel";
 
 export default class Home extends Component {
 
@@ -46,7 +47,10 @@ export default class Home extends Component {
                     players {
                         _id
                         nickname
-                        points
+                        points {
+                            _id
+                            date
+                        }
                     }
                 }
             `
@@ -86,7 +90,51 @@ export default class Home extends Component {
                     givePoint(nickname: "${player}", date: "${date}") {
                         _id
                         nickname
-                        points
+                        points {
+                            _id
+                            date
+                        }
+                    }
+                }
+            `
+        };
+
+        fetch('http://localhost:3001/graphql', {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Failed!');
+                }
+                return res.json();
+            }).then(resData => {
+            if (resData.errors) {
+                this.setState({errorMessage: resData.errors[0].message})
+            } else {
+                this.fetchPlayers();
+            }
+        })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+    deletePoint = (player, point) => {
+
+        const requestBody = {
+            query: `
+                mutation {
+                    deletePoint(pointId: ${point._id}, nickname: ${player.nickname}){
+                        _id
+                        nickname
+                        points {
+                            _id
+                            date
+                        }
                     }
                 }
             `
@@ -149,9 +197,9 @@ export default class Home extends Component {
         return sortedPlayers;
     }
 
-    comparePoints( a, b ) {
-        if ( a < b ) return -1;
-        if ( a > b ) return 1;
+    comparePoints(a, b) {
+        if (a < b) return -1;
+        if (a > b) return 1;
         return 0;
     }
 
@@ -167,22 +215,6 @@ export default class Home extends Component {
                 )
             )
         };
-
-        const players = this.state.players.map((player, i) => {
-            return (
-                <div key={i} className="point-table__player">
-                    <span className="point-table__player player-nickname">{player.nickname}</span>
-                    <span
-                        className="point-table__player player-point-count">
-                        {pointTableBubbles(player.points.length, 'bubbles', player.points)}
-                    </span>
-                    {
-                        (player.points.length > 0 && this.state.menuShowDates) &&
-                        <span className="point-table__player player-points">On Date: {getDate(player.points)}</span>
-                    }
-                </div>
-            )
-        });
 
         const getWeekDays = weekdaysLetter.map((weekday, i) => {
             return (
@@ -244,12 +276,12 @@ export default class Home extends Component {
                             <div className="weekday"/>
                         </div>
                     </div>
+                    <PointPanel
+                        players={this.state.players}
+                        deletePoint={this.deletePoint}
+                    />
                 </div>
-                <div className="point-table__container">
-                    <div className="point-table">
-                        {players}
-                    </div>
-                </div>
+
             </React.Fragment>
         );
     }
